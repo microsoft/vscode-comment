@@ -8,9 +8,13 @@
 	"main": "./out/extension",
 	"contributes": {
 		"commands": [{
-			"command": "extension.sayHello",
-			"title": "Hello World"
-		}]
+			"command": "extension.addDocComments",
+			"title": "Add Doc Comments"
+		}],
+		  "keybindings": [{
+   "command": "extension.addDocComments",
+   "win": "ctrl+alt+k"
+  }]
 	},
 	"scripts": {
 		"vscode:prepublish": "node ./node_modules/vscode/bin/compile",
