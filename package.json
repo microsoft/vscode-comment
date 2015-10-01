@@ -1,0 +1,22 @@
+{
+	"name": "addDocComments",
+	"version": "0.0.1",
+	"publisher": "Steven",
+	"engines": {
+		"vscode": ">=0.9.0-pre.1"
+	},
+	"main": "./out/extension",
+	"contributes": {
+		"commands": [{
+			"command": "extension.sayHello",
+			"title": "Hello World"
+		}]
+	},
+	"scripts": {
+		"vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+		"compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
+	},
+	"devDependencies": {
+		"vscode": ">=0.9.0-pre.1"
+	}
+}
