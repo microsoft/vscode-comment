@@ -1,4 +1,3 @@
-
 import * as vscode from 'vscode'; 
 
 export function activate() { 
@@ -30,14 +29,19 @@ export function activate() {
 	
 	function getParameters(selection: vscode.Selection, paramList: string[]): string {
 		var textToInsert: string = "";
-		textToInsert = textToInsert + '/**\n    *';
+		textToInsert = textToInsert + '/**\n *';
 				
 		paramList.forEach(element => {
 			if (element != '') {
 				var s = element.trim();
 				var paramName = (s.split(':').shift());
 				var paramType = (s.split(':').pop());
-				textToInsert = textToInsert + '@param  ' + paramName + '\n' + '    *';
+				textToInsert = textToInsert + ' @param  ';
+				if (paramType != '')
+				{
+					textToInsert = textToInsert + '{' + paramType.trim() + '}' + ' ';
+				}
+				textToInsert = textToInsert + paramName + '\n' + ' *';
 			}
 		});
 		textToInsert = textToInsert + '/';
