@@ -10,7 +10,10 @@ export function activate() {
 		var selection = vscode.window.getActiveTextEditor().getSelection();
 		var selectedText = vscode.window.getActiveTextEditor().getTextDocument().getTextInRange(selection);
 		var firstBraceIndex = selectedText.indexOf('(');
-		selectedText = selectedText.slice(firstBraceIndex); 
+		selectedText = selectedText.slice(firstBraceIndex);
+		
+		selectedText = stripComments(selectedText);
+		 
 		var params: paramDeclaration[] = getParameters(selectedText);
 		
 		if (params.length > 0) {
@@ -21,6 +24,7 @@ export function activate() {
 				var pos = new vscode.Position(startLine, 0);
 				editBuilder.insert(pos, textToInsert);
 			});
+			vscode.window.getActiveTextEditor().setSelection(selection.start);
 		}
 	});
 
@@ -31,13 +35,39 @@ export function activate() {
 			if (element.paramName != '') {
 				textToInsert = textToInsert + ' @param  ';
 				if (element.paramType != '') {
-					textToInsert = textToInsert + '{' + element.paramType.trim() + '}' + ' ';
+					textToInsert = textToInsert + '{' + element.paramType + '}' + ' ';
 				}
 				textToInsert = textToInsert + element.paramName + '\n' + ' *';
 			}
 		});
 		textToInsert = textToInsert + '/';
 		return textToInsert;
+	}
+	
+	function stripComments(text: string) : string {
+		var uncommentedText: string = '';
+		var index = 0;
+		while (index != text.length) {
+			if ((text.charAt(index) == '/') && (text.charAt(index + 1) == '*')) {
+				//parse comment
+				index = index + 2;
+				while ((text.charAt(index) != '*') && (text.charAt(index + 1) != '/')) {
+					index++;
+				}
+				index = index + 2;
+			}
+			else if ((text.charAt(index) == '/') && (text.charAt(index + 1) == '/')) {
+				//read to end of line
+				while (text.charAt(index) != '\n') {
+					index++;
+				}
+			}
+			else {
+				uncommentedText = uncommentedText + text.charAt(index);
+				index++;
+			}
+		}
+		return uncommentedText;
 	}
 
 	
