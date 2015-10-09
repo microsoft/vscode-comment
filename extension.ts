@@ -11,7 +11,7 @@ export function activate() {
 		var selectedText = vscode.window.getActiveTextEditor().getTextDocument().getTextInRange(selection);
 		var firstBraceIndex = selectedText.indexOf('(');
 		selectedText = selectedText.slice(firstBraceIndex); 
-		var params: paramDeclaration[] = parseParameters2(selectedText);
+		var params: paramDeclaration[] = getParameters(selectedText);
 		
 		if (params.length > 0) {
 			var textToInsert = getParameterText(params);
@@ -42,7 +42,7 @@ export function activate() {
 
 	
 	//Assumes that the string passed in starts with ( and continues to )
-	function parseParameters2(text: string): paramDeclaration[] {
+	function getParameters(text: string): paramDeclaration[] {
 		var paramList: paramDeclaration[] = [];
 		//Start by looking for the function name declaration
 		var index = 0;
