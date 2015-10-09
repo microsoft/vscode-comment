@@ -31,15 +31,17 @@ function stripComments(text: string): string {
 	while (index != text.length) {
 		if ((text.charAt(index) == '/') && (text.charAt(index + 1) == '*')) {
 			//parse comment
-			index = index + 2;
-			while ((text.charAt(index) != '*') && (text.charAt(index + 1) != '/')) {
-				index++;
+			if ((index + 2) != text.length) { //Check for the corner case that the selected text contains a /* right at the end
+				index = index + 2;
+				while ((text.charAt(index) != '*') && (text.charAt(index + 1) != '/')) {
+					index++;
+				}
 			}
 			index = index + 2;
 		}
 		else if ((text.charAt(index) == '/') && (text.charAt(index + 1) == '/')) {
 			//read to end of line
-			while (text.charAt(index) != '\n') {
+			while ((text.charAt(index) != '\n') && (index < text.length)) {
 				index++;
 			}
 		}
@@ -99,11 +101,17 @@ function getParameters(text: string): paramDeclaration[] {
 						type = type + text.charAt(index);
 						index++;
 					}
+					if (text.charAt(index) == ')') {
+						numBraces--;
+					}
 				}
 				else {
 					while ((text.charAt(index) != ',') && (text.charAt(index) != ')') && (index != text.length)) {
 						type = type + text.charAt(index);
 						index++;
+					}
+					if (text.charAt(index) == ')') {
+						numBraces--;
 					}
 				}
 			}
