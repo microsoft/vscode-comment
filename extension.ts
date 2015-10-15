@@ -15,12 +15,13 @@ export function activate() {
 		selectedText = selectedText.slice(firstBraceIndex);
 
 		selectedText = functionParser.stripComments(selectedText);
-
+		
+		var returnText = functionParser.getReturns(selectedText);
+		
 		var params: functionParser.paramDeclaration[] = functionParser.getParameters(selectedText);
 
 		if (params.length > 0) {
-			var textToInsert = functionParser.getParameterText(params);
-
+			var textToInsert = functionParser.getParameterText(params, returnText);
 			vscode.window.getActiveTextEditor().edit((editBuilder: vscode.TextEditorEdit) => {
 				var startLine = selection.start.line - 1;
 				var pos = new vscode.Position(startLine, 0);

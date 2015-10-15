@@ -7,7 +7,7 @@ export class paramDeclaration {
 }
 
 
-export function getParameterText(paramList: paramDeclaration[]): string {
+export function getParameterText(paramList: paramDeclaration[],  returnText: string): string {
 	var textToInsert: string = "";
 	textToInsert = textToInsert + '/**\n *';
 	paramList.forEach(element => {
@@ -19,8 +19,29 @@ export function getParameterText(paramList: paramDeclaration[]): string {
 			textToInsert = textToInsert + element.paramName + '\n' + ' *';
 		}
 	});
+	if (returnText != '') {
+		textToInsert = textToInsert + ' @returns ' + returnText + '\n' + ' *';
+	}
 	textToInsert = textToInsert + '/';
 	return textToInsert;
+}
+
+export function getReturns(text: string) : string {
+	var returnText: string = '';
+	text = text.replace(/\s/g, '');
+
+	var lastIndex = text.lastIndexOf(':');
+	var lastBrace = text.lastIndexOf(')');
+	if (lastIndex > lastBrace) {
+		//we have a return type
+		//read to end of string
+		var index = lastIndex + 1;
+		while (index < text.length) {
+			returnText = returnText + text.charAt(index);
+			index++;
+		}
+	}
+	return returnText;
 }
 
 export function stripComments(text: string): string {
