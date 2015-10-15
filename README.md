@@ -9,7 +9,7 @@ Next, clone this repo and run `npm install`.
 
 ```bash
 cd <some folder on disk>
-git clone https://monacotools.visualstudio.com/DefaultCollection/Monaco/_git/go-code
+git clone https://github.com/Microsoft/vscode-comment.git
 cd vscode-comment
 npm install
 code .
