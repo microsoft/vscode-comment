@@ -6,6 +6,8 @@ export function activate() {
 
 
 	console.log('Congratulations, your extension "addDocComments" is now active!');
+	
+	
 
 	vscode.commands.registerCommand('extension.addDocComments', () => {
 
@@ -26,8 +28,11 @@ export function activate() {
 				var startLine = selection.start.line - 1;
 				var pos = new vscode.Position(startLine, 0);
 				editBuilder.insert(pos, textToInsert);
+			}).then(()=>{
+				vscode.window.getActiveTextEditor().setSelection(selection.start);				
 			});
-			vscode.window.getActiveTextEditor().setSelection(selection.start);
+
+
 		}
 	});
 }
