@@ -28,10 +28,16 @@ export function activate() {
 				var textToInsert = functionParser.getParameterText(params, returnText);
 				vscode.window.getActiveTextEditor().edit((editBuilder: vscode.TextEditorEdit) => {
 					var startLine = selection.start.line - 1;
-					var pos = new vscode.Position(startLine, 0);
+					if (startLine == 0) {
+						//If the function declaration is on the first line in the editor we need to set startLine to first line
+						//and then add an extra newline at the end of the text to insert
+						startLine = 1;
+						textToInsert = textToInsert + '\n';
+					}
+					var pos = new vscode.Position(startLine, 1);
 					editBuilder.insert(pos, textToInsert);
 				}).then(() => {
-					vscode.window.getActiveTextEditor().setSelection(selection.start);
+					vscode.window.getActiveTextEditor().setSelection(new vscode.Position(1, 1));
 				});
 			}
 		}
