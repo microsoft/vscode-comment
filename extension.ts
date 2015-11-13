@@ -34,7 +34,17 @@ export function activate(ctx:vscode.ExtensionContext) {
 						startLine = 0;
 						textToInsert = textToInsert + '\n';
 					}
-					var pos = new vscode.Position(startLine, 0);
+					//Check if there is any text on startLine. If there is, add a new line at the end
+					var lastCharIndex = vscode.window.activeTextEditor.document.lineAt(startLine).text.length;
+					var pos:vscode.Position;
+					if ((lastCharIndex > 0) && (startLine !=0)) {
+						pos = new vscode.Position(startLine, lastCharIndex);
+						textToInsert = '\n' + textToInsert; 	
+					}
+					else {
+						pos = new vscode.Position(startLine, 0);
+					}
+
 					editBuilder.insert(pos, textToInsert);
 				}).then(() => {
 					//vscode.window.activeTextEditor.s.selection = new vscode.Position(startLine, 1);

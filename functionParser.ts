@@ -7,7 +7,7 @@ export class paramDeclaration {
 }
 
 
-export function getParameterText(paramList: paramDeclaration[],  returnText: string): string {
+export function getParameterText(paramList: paramDeclaration[], returnText: string): string {
 	var textToInsert: string = "";
 	textToInsert = textToInsert + '/**\n *';
 	paramList.forEach(element => {
@@ -26,7 +26,7 @@ export function getParameterText(paramList: paramDeclaration[],  returnText: str
 	return textToInsert;
 }
 
-export function getReturns(text: string) : string {
+export function getReturns(text: string): string {
 	var returnText: string = '';
 	text = text.replace(/\s/g, '');
 
@@ -89,58 +89,62 @@ export function getParameters(text: string): paramDeclaration[] {
 					
 			//Now we are at a non whitespace character. Assume it is the parameter name
 			var name: string = '';
-			while ((text.charAt(index) != ':') && (text.charAt(index) != ',') && (text.charAt(index) != ')')) {
+			while ((text.charAt(index) != ':') && (text.charAt(index) != ',') && (text.charAt(index) != ')') && (index < text.length)) {
 				name = name + text.charAt(index);
 				index++;
-			}		
-			//Now we are at a : or a ',', skip then read until a , to get the param type
-			var type: string = '';
-			if (text.charAt(index) == ':') {
-				index++;
-				//we have a type to process
-				if (text.charAt(index) == '(') {
-					var startNumBraces = numBraces;
-					numBraces++;
-					type = type + text.charAt(index);
+			}
+			if (index < text.length) {		
+				//Now we are at a : or a ',', skip then read until a , to get the param type
+				var type: string = '';
+				if (text.charAt(index) == ':') {
 					index++;
-					//we have encountered a function type
-					//read all the way through until the numBraces = startNumBraces
-					while ((numBraces != startNumBraces) && (index != text.length)) {
+					//we have a type to process
+					if (text.charAt(index) == '(') {
+						var startNumBraces = numBraces;
+						numBraces++;
+						type = type + text.charAt(index);
+						index++;
+						//we have encountered a function type
+						//read all the way through until the numBraces = startNumBraces
+						while ((numBraces != startNumBraces) && (index < text.length)) {
+							if (text.charAt(index) == ')') {
+								numBraces--;
+							}
+							else if (text.charAt(index) == '(') {
+								numBraces++;
+							}
+							type = type + text.charAt(index);
+							index++;
+						}
+						if (index < text.length) {
+							//Now read up to either a , or a )
+							while ((text.charAt(index) != ',') && (text.charAt(index) != ')')) {
+								type = type + text.charAt(index);
+								index++;
+							}
+							if (text.charAt(index) == ')') {
+								numBraces--;
+							}
+						}
+					}
+					else {
+						while ((text.charAt(index) != ',') && (text.charAt(index) != ')') && (index != text.length)) {
+							type = type + text.charAt(index);
+							index++;
+						}
 						if (text.charAt(index) == ')') {
 							numBraces--;
 						}
-						else if (text.charAt(index) == '(') {
-							numBraces++;
-						}
-						type = type + text.charAt(index);
-						index++;
-					}
-					//Now read up to either a , or a )
-					while ((text.charAt(index) != ',') && (text.charAt(index) != ')')) {
-						type = type + text.charAt(index);
-						index++;
-					}
-					if (text.charAt(index) == ')') {
-						numBraces--;
 					}
 				}
 				else {
-					while ((text.charAt(index) != ',') && (text.charAt(index) != ')') && (index != text.length)) {
-						type = type + text.charAt(index);
-						index++;
-					}
-					if (text.charAt(index) == ')') {
-						numBraces--;
-					}
+					//no type is specified
+					type = 'any';
 				}
-			}
-			else {
-				//no type is specified
-				type = 'any';
-			}
-			paramList.push(new paramDeclaration(name, type));
-			if (index < text.length) {
-				index++;
+				paramList.push(new paramDeclaration(name, type));
+				if (index < text.length) {
+					index++;
+				}
 			}
 		}
 
