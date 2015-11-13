@@ -1,5 +1,24 @@
 {
 	"name": "addDocComments",
+	"displayName": "Add jsdoc comments",
+	"description": "Adds jsdoc @param and @return tags for selected function signatures in JS and TS",
+	"icon": "images/comment_logo.svg",
+	"galleryBanner": {
+		"color": "#5c2d91",
+		"theme": "dark"
+	},
+	"license": "SEE LICENSE IN LICENSE.md",
+    "bugs": {
+        "url": "https://github.com/Microsoft/vscode-comment/issues"
+    },
+    "homepage": "https://github.com/Microsoft/vscode-comment/blob/master/README.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Microsoft/vscode-comment.git"
+    },
+	"categories": [
+        "Other"
+    ],
 	"version": "0.0.1",
 	"publisher": "Steven Clarke",
 	"engines": {
