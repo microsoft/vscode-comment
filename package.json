@@ -1,11 +1,14 @@
 {
 	"name": "addDocComments",
 	"version": "0.0.1",
-	"publisher": "stevencl",
+	"publisher": "Steven Clarke",
 	"engines": {
-		"vscode": ">=0.9.0-pre.1"
+		"vscode": "0.10.x"
 	},
 	"main": "./out/extension",
+	"activationEvents": [
+		"onCommand:extension.addDocComments"
+	],
 	"contributes": {
 		"commands": [{
 			"command": "extension.addDocComments",
@@ -13,7 +16,7 @@
 		}],
 		  "keybindings": [{
    "command": "extension.addDocComments",
-   "win": "ctrl+alt+k"
+   "key": "ctrl+alt+k"
   }]
 	},
 	"scripts": {
@@ -21,6 +24,6 @@
 		"compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
 	},
 	"devDependencies": {
-		"vscode": ">=0.9.0-pre.1"
+		"vscode": "0.10.1"
 	}
 }

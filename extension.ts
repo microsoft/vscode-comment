@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 
 import * as functionParser from './functionParser';
 
-export function activate() {
+export function activate(ctx:vscode.ExtensionContext) {
 
 
 	console.log('Congratulations, your extension "addDocComments" is now active!');
@@ -11,11 +11,11 @@ export function activate() {
 
 	vscode.commands.registerCommand('extension.addDocComments', () => {
 
-		var lang = vscode.window.getActiveTextEditor().getTextDocument().getLanguageId();
+		var lang = vscode.window.activeTextEditor.document.languageId;
 		if ((lang == "typescript") || (lang == 'javascript')) {
-			var selection = vscode.window.getActiveTextEditor().getSelection();
+			var selection = vscode.window.activeTextEditor.selection;
 			var startLine = selection.start.line - 1;
-			var selectedText = vscode.window.getActiveTextEditor().getTextDocument().getTextInRange(selection);
+			var selectedText = vscode.window.activeTextEditor.document.getText(selection);
 			var firstBraceIndex = selectedText.indexOf('(');
 			selectedText = selectedText.slice(firstBraceIndex);
 
@@ -27,17 +27,17 @@ export function activate() {
 
 			if (params.length > 0) {
 				var textToInsert = functionParser.getParameterText(params, returnText);
-				vscode.window.getActiveTextEditor().edit((editBuilder: vscode.TextEditorEdit) => {
-					if (startLine == 0) {
+				vscode.window.activeTextEditor.edit((editBuilder: vscode.TextEditorEdit) => {
+					if (startLine < 0) {
 						//If the function declaration is on the first line in the editor we need to set startLine to first line
 						//and then add an extra newline at the end of the text to insert
-						startLine = 1;
+						startLine = 0;
 						textToInsert = textToInsert + '\n';
 					}
-					var pos = new vscode.Position(startLine, 1);
+					var pos = new vscode.Position(startLine, 0);
 					editBuilder.insert(pos, textToInsert);
 				}).then(() => {
-					vscode.window.getActiveTextEditor().setSelection(new vscode.Position(startLine, 1));
+					//vscode.window.activeTextEditor.s.selection = new vscode.Position(startLine, 1);
 				});
 			}
 		}
