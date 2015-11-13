@@ -1,26 +1,12 @@
 # vscode-comment
 Adds simple jsdoc comments for the parameters of a selected function signature
 
-## Getting the repo
-
-First, you will need to install Visual Studio Code `0.9.1`.  
-
-Next, clone this repo and run `npm install`.
-
-```bash
-cd <some folder on disk>
-git clone https://github.com/Microsoft/vscode-comment.git
-cd vscode-comment
-npm install
-code .
-```
-
 ## Using
+In a typescript or javascript  file, select a function signature, ideally one that contains one or more parameters. Select the whole function signature then invoke the Add Doc Comments extension (open the command palette (F1 on Windows) and look for the command 'Add doc comments'. Hit enter.)
 
-When you have opened the repo in VS Code, press F5 to build and run the extension. VS Code will launch another window in which your extension will be hosted.
+The extension will parse the selected signature and add @param and @return tags for each parameter and any return type in the selected signature, directly above the signature.
 
-Open, or create, a typescript file and find a function signature, ideally one that contains one or more parameters. Select the whole function signature.
+## Limitations
+The extension does not support any other type of jsdoc tags. It only calculates @param and @return
 
-The extension adds a command to the command palette. Open the command palette (F1 on Windows) and look for the command 'Add doc comments'. Hit enter.
-
-The extension will parse the selected signature and add @param comments for each parameter in the selected signature, directly above the signature.
+Parameter types are not inferred based on usage. If a type is not specified, the type {any} is output.
