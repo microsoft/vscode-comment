@@ -4,11 +4,6 @@ import * as functionParser from './functionParser';
 
 export function activate(ctx:vscode.ExtensionContext) {
 
-
-	console.log('Congratulations, your extension "addDocComments" is now active!');
-
-
-
 	vscode.commands.registerCommand('extension.addDocComments', () => {
 
 		var lang = vscode.window.activeTextEditor.document.languageId;
@@ -16,6 +11,12 @@ export function activate(ctx:vscode.ExtensionContext) {
 			var selection = vscode.window.activeTextEditor.selection;
 			var startLine = selection.start.line - 1;
 			var selectedText = vscode.window.activeTextEditor.document.getText(selection);
+			
+			if (selectedText.length === 0) {
+				vscode.window.showInformationMessage('Please highlight a function signature!');
+				return;
+			}
+			
 			var firstBraceIndex = selectedText.indexOf('(');
 			selectedText = selectedText.slice(firstBraceIndex);
 
