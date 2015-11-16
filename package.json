@@ -33,7 +33,6 @@
 			"command": "extension.addDocComments",
 			"title": "Add Doc Comments"
 		}]
-  }]
 	},
 	"scripts": {
 		"vscode:prepublish": "node ./node_modules/vscode/bin/compile",
