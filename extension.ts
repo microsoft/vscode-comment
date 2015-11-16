@@ -11,9 +11,23 @@ export function activate(ctx:vscode.ExtensionContext) {
 			var selection = vscode.window.activeTextEditor.selection;
 			var startLine = selection.start.line - 1;
 			var selectedText = vscode.window.activeTextEditor.document.getText(selection);
+			var outputMessage: string = 'Please select a TypeScript or JavaScript function signature'
 			
 			if (selectedText.length === 0) {
-				vscode.window.showInformationMessage('Please highlight a function signature!');
+				vscode.window.showInformationMessage(outputMessage);
+				return;
+			}
+			
+			if (functionParser.stripComments(selectedText).length === 0) {
+				vscode.window.showInformationMessage(outputMessage);
+				return;
+			}
+			
+			//some random text
+			
+			var containsFunctionSig:boolean = /\s*function\s*\w*\s*\(/.test(functionParser.stripComments(selectedText));
+			if (!containsFunctionSig) {
+				vscode.window.showInformationMessage(outputMessage);
 				return;
 			}
 			

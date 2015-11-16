@@ -32,10 +32,7 @@
 		"commands": [{
 			"command": "extension.addDocComments",
 			"title": "Add Doc Comments"
-		}],
-		  "keybindings": [{
-   "command": "extension.addDocComments",
-   "key": "ctrl+alt+k"
+		}]
   }]
 	},
 	"scripts": {
