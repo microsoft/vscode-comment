@@ -26,6 +26,7 @@ export function getParameterText(paramList: paramDeclaration[], returnText: stri
 	return textToInsert;
 }
 
+
 export function getReturns(text: string): string {
 	var returnText: string = '';
 	text = text.replace(/\s/g, '');
@@ -36,10 +37,12 @@ export function getReturns(text: string): string {
 		//we have a return type
 		//read to end of string
 		var index = lastIndex + 1;
-		while (index < text.length) {
-			returnText = returnText + text.charAt(index);
-			index++;
-		}
+		var splicedText = text.slice(index, text.length);
+		returnText = splicedText.match(/[a-zA-Z][a-zA-Z0-9$_]*/).toString();
+		// while (index < text.length) && (text..charAt(index).al.m
+		// 	returnText = returnText + text.charAt(index);
+		// 	index++;
+		// }
 	}
 	return returnText;
 }
