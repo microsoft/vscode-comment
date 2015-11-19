@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
 
+var indentString = require('indent-string');
+
 import * as functionParser from './functionParser';
 
 export function activate(ctx:vscode.ExtensionContext) {
@@ -59,10 +61,11 @@ export function activate(ctx:vscode.ExtensionContext) {
 					else {
 						pos = new vscode.Position(startLine, 0);
 					}
-
+					var numSpaces :number = vscode.window.activeTextEditor.document.lineAt(selection.start.line).firstNonWhitespaceCharacterIndex;
+					textToInsert = indentString(textToInsert, ' ', numSpaces);
 					editBuilder.insert(pos, textToInsert);
 				}).then(() => {
-					//vscode.window.activeTextEditor.s.selection = new vscode.Position(startLine, 1);
+					
 				});
 			}
 		}
