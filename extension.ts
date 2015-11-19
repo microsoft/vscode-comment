@@ -27,11 +27,11 @@ export function activate(ctx:vscode.ExtensionContext) {
 			
 			//some random text
 			
-			var containsFunctionSig:boolean = /\s*function\s*\w*\s*\(/.test(functionParser.stripComments(selectedText));
-			if (!containsFunctionSig) {
-				vscode.window.showInformationMessage(outputMessage);
-				return;
-			}
+			// var containsFunctionSig:boolean = /\s*function\s*\w*\s*\(/.test(functionParser.stripComments(selectedText));
+			// if (!containsFunctionSig) {
+			// 	vscode.window.showInformationMessage(outputMessage);
+			// 	return;
+			// }
 			
 			var firstBraceIndex = selectedText.indexOf('(');
 			selectedText = selectedText.slice(firstBraceIndex);
