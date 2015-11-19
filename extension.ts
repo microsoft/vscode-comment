@@ -61,8 +61,19 @@ export function activate(ctx:vscode.ExtensionContext) {
 					else {
 						pos = new vscode.Position(startLine, 0);
 					}
-					var numSpaces :number = vscode.window.activeTextEditor.document.lineAt(selection.start.line).firstNonWhitespaceCharacterIndex;
-					textToInsert = indentString(textToInsert, ' ', numSpaces);
+					var line:string = vscode.window.activeTextEditor.document.lineAt(selection.start.line).text;
+					var firstNonWhiteSpace :number = vscode.window.activeTextEditor.document.lineAt(selection.start.line).firstNonWhitespaceCharacterIndex;
+					var numIndent : number = 0;
+					var tabSize : number = vscode.window.activeTextEditor.options.tabSize;
+					for (var i = 0; i < firstNonWhiteSpace; i++) {
+						if (line.charAt(i) == '\t') {
+							numIndent = numIndent + tabSize;
+						}
+						else if (line.charAt(i) == ' ') {
+							numIndent = numIndent + 1;
+						}
+					}					
+					textToInsert = indentString(textToInsert, ' ', numIndent);
 					editBuilder.insert(pos, textToInsert);
 				}).then(() => {
 					
