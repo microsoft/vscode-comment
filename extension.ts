@@ -65,15 +65,16 @@ export function activate(ctx:vscode.ExtensionContext) {
 					var firstNonWhiteSpace :number = vscode.window.activeTextEditor.document.lineAt(selection.start.line).firstNonWhitespaceCharacterIndex;
 					var numIndent : number = 0;
 					var tabSize : number = vscode.window.activeTextEditor.options.tabSize;
+					var stringToIndent: string = '';
 					for (var i = 0; i < firstNonWhiteSpace; i++) {
 						if (line.charAt(i) == '\t') {
-							numIndent = numIndent + tabSize;
+							stringToIndent = stringToIndent + '\t';
 						}
 						else if (line.charAt(i) == ' ') {
-							numIndent = numIndent + 1;
+							stringToIndent = stringToIndent + ' ';
 						}
 					}					
-					textToInsert = indentString(textToInsert, ' ', numIndent);
+					textToInsert = indentString(textToInsert, stringToIndent, 1);
 					editBuilder.insert(pos, textToInsert);
 				}).then(() => {
 					
