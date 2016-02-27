@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
 
+var indentString = require('indent-string');
+
 import * as functionParser from './functionParser';
 
 export function activate(ctx:vscode.ExtensionContext) {
@@ -22,12 +24,14 @@ export function activate(ctx:vscode.ExtensionContext) {
 				vscode.window.showInformationMessage(outputMessage);
 				return;
 			}
-						
-			var containsFunctionSig:boolean = /\s*function\s*\w*\s*\(/.test(functionParser.stripComments(selectedText));
-			if (!containsFunctionSig) {
-				vscode.window.showInformationMessage(outputMessage);
-				return;
-			}
+			
+			//some random text
+			
+			// var containsFunctionSig:boolean = /\s*function\s*\w*\s*\(/.test(functionParser.stripComments(selectedText));
+			// if (!containsFunctionSig) {
+			// 	vscode.window.showInformationMessage(outputMessage);
+			// 	return;
+			// }
 			
 			var firstBraceIndex = selectedText.indexOf('(');
 			selectedText = selectedText.slice(firstBraceIndex);
@@ -57,10 +61,23 @@ export function activate(ctx:vscode.ExtensionContext) {
 					else {
 						pos = new vscode.Position(startLine, 0);
 					}
-
+					var line:string = vscode.window.activeTextEditor.document.lineAt(selection.start.line).text;
+					var firstNonWhiteSpace :number = vscode.window.activeTextEditor.document.lineAt(selection.start.line).firstNonWhitespaceCharacterIndex;
+					var numIndent : number = 0;
+					var tabSize : number = vscode.window.activeTextEditor.options.tabSize;
+					var stringToIndent: string = '';
+					for (var i = 0; i < firstNonWhiteSpace; i++) {
+						if (line.charAt(i) == '\t') {
+							stringToIndent = stringToIndent + '\t';
+						}
+						else if (line.charAt(i) == ' ') {
+							stringToIndent = stringToIndent + ' ';
+						}
+					}					
+					textToInsert = indentString(textToInsert, stringToIndent, 1);
 					editBuilder.insert(pos, textToInsert);
 				}).then(() => {
-					//vscode.window.activeTextEditor.s.selection = new vscode.Position(startLine, 1);
+					
 				});
 			}
 		}
