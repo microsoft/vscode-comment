@@ -22,9 +22,7 @@ export function activate(ctx:vscode.ExtensionContext) {
 				vscode.window.showInformationMessage(outputMessage);
 				return;
 			}
-			
-			//some random text
-			
+						
 			var containsFunctionSig:boolean = /\s*function\s*\w*\s*\(/.test(functionParser.stripComments(selectedText));
 			if (!containsFunctionSig) {
 				vscode.window.showInformationMessage(outputMessage);
