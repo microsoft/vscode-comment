@@ -13,9 +13,9 @@ export function getParameterText(paramList: paramDeclaration[], returnText: stri
 	paramList.forEach(element => {
 		if (element.paramName != '') {
 			textToInsert = textToInsert + ' @param  ';
-			if (element.paramType != '') {
+			//if (element.paramType != '') {
 				textToInsert = textToInsert + '{' + element.paramType + '}' + ' ';
-			}
+			//}
 			textToInsert = textToInsert + element.paramName + '\n' + ' *';
 		}
 	});
@@ -142,7 +142,7 @@ export function getParameters(text: string): paramDeclaration[] {
 				}
 				else {
 					//no type is specified
-					type = 'any';
+					type = '';
 				}
 				paramList.push(new paramDeclaration(name, type));
 				if (index < text.length) {
