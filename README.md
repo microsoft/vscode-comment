@@ -12,4 +12,7 @@ The extension will parse the selected signature and add @param and @return tags 
 ## Limitations
 The extension does not support any other type of jsdoc tags. It only calculates @param and @return
 
-Parameter types are not inferred based on usage. If a type is not specified, the type {any} is output.
+Parameter types are not inferred based on usage. If a type is not specified, empty braces {} are returned.
+
+## Other extensions
+[Document This](https://marketplace.visualstudio.com/items?itemName=joelday.docthis) provides the same functionality but supports many more tags
