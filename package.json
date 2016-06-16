@@ -19,7 +19,7 @@
   "categories": [
     "Other"
   ],
-  "version": "0.0.7",
+  "version": "0.0.8",
   "publisher": "stevencl",
   "engines": {
     "vscode": "0.10.x"
