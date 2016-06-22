@@ -16,3 +16,5 @@ Parameter types are not inferred based on usage. If a type is not specified, emp
 
 ## Other extensions
 [Document This](https://marketplace.visualstudio.com/items?itemName=joelday.docthis) provides the same functionality but supports many more tags
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
