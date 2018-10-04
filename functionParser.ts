@@ -6,26 +6,24 @@ export class paramDeclaration {
 	}
 }
 
-
 export function getParameterText(paramList: paramDeclaration[], returnText: string): string {
-	var textToInsert: string = "";
+	var textToInsert: string = '';
 	textToInsert = textToInsert + '/**\n *';
 	paramList.forEach(element => {
-		if (element.paramName != '') {
+		if (element.paramName !== '') {
 			textToInsert = textToInsert + ' @param  ';
-			//if (element.paramType != '') {
+			//if (element.paramType !== '') {
 				textToInsert = textToInsert + '{' + element.paramType + '}' + ' ';
 			//}
 			textToInsert = textToInsert + element.paramName + '\n' + ' *';
 		}
 	});
-	if (returnText != '') {
+	if (returnText !== '') {
 		textToInsert = textToInsert + ' @returns ' + returnText + '\n' + ' *';
 	}
 	textToInsert = textToInsert + '/';
 	return textToInsert;
 }
-
 
 export function getReturns(text: string): string {
 	var returnText: string = '';
@@ -50,15 +48,20 @@ export function getReturns(text: string): string {
 export function stripComments(text: string): string {
 	var uncommentedText: string = '';
 	var index = 0;
+	while (index !== text.length) {
+		if ((text.charAt(index) === '/') && (text.charAt(index + 1) === '*')) {
 			//Parse comment
+			if ((index + 2) !== text.length) { //Check for the corner case that the selected text contains a /* right at the end
 				index = index + 2;
-				while ((text.charAt(index) != '*') && (text.charAt(index + 1) != '/')) {
+				while ((text.charAt(index) !== '*') && (text.charAt(index + 1) !== '/')) {
 					index++;
 				}
 			}
 			index = index + 2;
 		}
+		else if ((text.charAt(index) === '/') && (text.charAt(index + 1) === '/')) {
 			//Read to end of line
+			while ((text.charAt(index) !== '\n') && (index < text.length)) {
 				index++;
 			}
 		}
@@ -70,7 +73,6 @@ export function stripComments(text: string): string {
 	return uncommentedText;
 }
 
-	
 //Assumes that the string passed in starts with ( and continues to ) and does not contain any comments or white space
 export function getParameters(text: string): paramDeclaration[] {
 	var paramList: paramDeclaration[] = [];
@@ -79,32 +81,36 @@ export function getParameters(text: string): paramDeclaration[] {
 	text = text.replace(/\s/g, '');
 	//Now we are at the first non whitespace character
 	//if it is not a '(' then this is not a valid function declaration
+	if (text.charAt(index) === '(') {
 		//Count the number of matching opening and closing braces. Keep parsing until 0
 		var numBraces = 1;
 		index++;
-		while ((numBraces != 0) && (index != text.length)) {
+		while ((numBraces !== 0) && (index !== text.length)) {
 					
 			//Now we are at a non whitespace character. Assume it is the parameter name
 			var name: string = '';
-			while ((text.charAt(index) != ':') && (text.charAt(index) != ',') && (text.charAt(index) != ')') && (index < text.length)) {
+			while ((text.charAt(index) !== ':') && (text.charAt(index) !== ',') && (text.charAt(index) !== ')') && (index < text.length)) {
 				name = name + text.charAt(index);
 				index++;
 			}
 			if (index < text.length) {		
 				//Now we are at a : or a ',', skip then read until a , to get the param type
 				var type: string = '';
-				if (text.charAt(index) == ':') {
+				if (text.charAt(index) === ':') {
 					index++;
 					//We have a type to process
+					if (text.charAt(index) === '(') {
 						var startNumBraces = numBraces;
 						numBraces++;
 						type = type + text.charAt(index);
 						index++;
 						//We have encountered a function type
 						//Read all the way through until the numBraces = startNumBraces
+						while ((numBraces !== startNumBraces) && (index < text.length)) {
+							if (text.charAt(index) === ')') {
 								numBraces--;
 							}
-							else if (text.charAt(index) == '(') {
+							else if (text.charAt(index) === '(') {
 								numBraces++;
 							}
 							type = type + text.charAt(index);
@@ -112,21 +118,21 @@ export function getParameters(text: string): paramDeclaration[] {
 						}
 						if (index < text.length) {
 							//Now read up to either a , or a )
-							while ((text.charAt(index) != ',') && (text.charAt(index) != ')')) {
+							while ((text.charAt(index) !== ',') && (text.charAt(index) !== ')')) {
 								type = type + text.charAt(index);
 								index++;
 							}
-							if (text.charAt(index) == ')') {
+							if (text.charAt(index) === ')') {
 								numBraces--;
 							}
 						}
 					}
 					else {
-						while ((text.charAt(index) != ',') && (text.charAt(index) != ')') && (index != text.length)) {
+						while ((text.charAt(index) !== ',') && (text.charAt(index) !== ')') && (index !== text.length)) {
 							type = type + text.charAt(index);
 							index++;
 						}
-						if (text.charAt(index) == ')') {
+						if (text.charAt(index) === ')') {
 							numBraces--;
 						}
 					}
@@ -141,7 +147,6 @@ export function getParameters(text: string): paramDeclaration[] {
 				}
 			}
 		}
-
 	}
 
 	return paramList;
