@@ -34,8 +34,8 @@ export function getReturns(text: string): string {
 	var lastIndex = text.lastIndexOf(':');
 	var lastBrace = text.lastIndexOf(')');
 	if (lastIndex > lastBrace) {
-		//we have a return type
-		//read to end of string
+		//We have a return type
+		//Read to end of string
 		var index = lastIndex + 1;
 		var splicedText = text.slice(index, text.length);
 		returnText = splicedText.match(/[a-zA-Z][a-zA-Z0-9$_]*/).toString();
@@ -50,10 +50,7 @@ export function getReturns(text: string): string {
 export function stripComments(text: string): string {
 	var uncommentedText: string = '';
 	var index = 0;
-	while (index != text.length) {
-		if ((text.charAt(index) == '/') && (text.charAt(index + 1) == '*')) {
-			//parse comment
-			if ((index + 2) != text.length) { //Check for the corner case that the selected text contains a /* right at the end
+			//Parse comment
 				index = index + 2;
 				while ((text.charAt(index) != '*') && (text.charAt(index + 1) != '/')) {
 					index++;
@@ -61,9 +58,7 @@ export function stripComments(text: string): string {
 			}
 			index = index + 2;
 		}
-		else if ((text.charAt(index) == '/') && (text.charAt(index + 1) == '/')) {
-			//read to end of line
-			while ((text.charAt(index) != '\n') && (index < text.length)) {
+			//Read to end of line
 				index++;
 			}
 		}
@@ -84,8 +79,7 @@ export function getParameters(text: string): paramDeclaration[] {
 	text = text.replace(/\s/g, '');
 	//Now we are at the first non whitespace character
 	//if it is not a '(' then this is not a valid function declaration
-	if (text.charAt(index) == '(') {
-		//count the number of matching opening and closing braces. Keep parsing until 0
+		//Count the number of matching opening and closing braces. Keep parsing until 0
 		var numBraces = 1;
 		index++;
 		while ((numBraces != 0) && (index != text.length)) {
@@ -101,16 +95,13 @@ export function getParameters(text: string): paramDeclaration[] {
 				var type: string = '';
 				if (text.charAt(index) == ':') {
 					index++;
-					//we have a type to process
-					if (text.charAt(index) == '(') {
+					//We have a type to process
 						var startNumBraces = numBraces;
 						numBraces++;
 						type = type + text.charAt(index);
 						index++;
-						//we have encountered a function type
-						//read all the way through until the numBraces = startNumBraces
-						while ((numBraces != startNumBraces) && (index < text.length)) {
-							if (text.charAt(index) == ')') {
+						//We have encountered a function type
+						//Read all the way through until the numBraces = startNumBraces
 								numBraces--;
 							}
 							else if (text.charAt(index) == '(') {
@@ -141,7 +132,7 @@ export function getParameters(text: string): paramDeclaration[] {
 					}
 				}
 				else {
-					//no type is specified
+					//No type is specified
 					type = '';
 				}
 				paramList.push(new paramDeclaration(name, type));
