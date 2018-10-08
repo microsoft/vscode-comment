@@ -4,12 +4,14 @@ var indentString = require('indent-string');
 
 import * as functionParser from './functionParser';
 
+const supportedLanguages = ['typescript', 'javascript', 'vue']
+
 export function activate(ctx:vscode.ExtensionContext) {
 
 	vscode.commands.registerCommand('extension.addDocComments', () => {
 
 		var lang = vscode.window.activeTextEditor.document.languageId;
-		if ((lang == "typescript") || (lang == 'javascript')) {
+		if (supportedLanguages.indexOf(lang) !== -1) {
 			var selection = vscode.window.activeTextEditor.selection;
 			var startLine = selection.start.line - 1;
 			var selectedText = vscode.window.activeTextEditor.document.getText(selection);
