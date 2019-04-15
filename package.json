@@ -1,7 +1,7 @@
 {
-  "name": "addDocComments",
-  "displayName": "Add jsdoc comments",
-  "description": "Adds jsdoc @param and @return tags for selected function signatures in JS and TS",
+  "name": "addSolidityComments",
+  "displayName": "Add solidity comments",
+  "description": "Adds solidity comments for all code",
   "icon": "images/comment_logo.svg",
   "galleryBanner": {
     "color": "#5c2d91",
@@ -44,6 +44,7 @@
     "vscode": "0.10.0"
   },
   "dependencies": {
-    "indent-string": "^2.1.0"
+    "indent-string": "^2.1.0",
+    "@nodefactory/solidity-comments-core": "^1.2.1"
   }
 }
