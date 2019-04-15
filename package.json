@@ -9,29 +9,25 @@
   },
   "license": "SEE LICENSE IN LICENSE.md",
   "bugs": {
-    "url": "https://github.com/Microsoft/vscode-comment/issues"
+    "url": "https://github.com/GoodDollar/vscode-comment/issues"
   },
-  "homepage": "https://github.com/Microsoft/vscode-comment/blob/master/README.md",
+  "homepage": "https://github.com/GoodDollar/vscode-comment/blob/master/README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Microsoft/vscode-comment.git"
+    "url": "https://github.com/GoodDollar/vscode-comment.git"
   },
-  "categories": [
-    "Other"
-  ],
-  "version": "0.0.8",
-  "publisher": "stevencl",
+  "categories": ["Other"],
+  "version": "0.0.1",
+  "publisher": "GoodDollar",
   "engines": {
     "vscode": "0.10.x"
   },
   "main": "./out/extension",
-  "activationEvents": [
-    "onCommand:extension.addDocComments"
-  ],
+  "activationEvents": ["onCommand:extension.addSolidityComments"],
   "contributes": {
     "commands": [
       {
-        "command": "extension.addDocComments",
+        "command": "extension.addSolidityComments",
         "title": "Add Doc Comments"
       }
     ]
@@ -44,7 +40,6 @@
     "vscode": "0.10.0"
   },
   "dependencies": {
-    "indent-string": "^2.1.0",
     "@nodefactory/solidity-comments-core": "^1.2.1"
   }
 }
